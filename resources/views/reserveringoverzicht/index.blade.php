@@ -25,3 +25,19 @@
             <th>Kinderen</th>
             <th>Status</th>
         </tr>
+        @foreach ($reservering as $reservering)
+        <tr>
+            <td>{{ $reservering->persoon->voornaam }}</td>
+            <td>{{ $reservering->persoon->tussenvoegsel }}</td>
+            <td>{{ $reservering->persoon->achternaam }}</td>
+            <td>{{ $reservering->datum }}</td>
+            <td>{{ $reservering->uren }}</td>
+            <td>{{ $reservering->aantalvolwassen }}</td>  
+            <td>{{ $reservering->aantalkinderen }}</td> 
+            <td>{{ $reservering->status }}</td>
+        </tr>
+        @endforeach
+
+    </table>
+    @endif
+@endsection

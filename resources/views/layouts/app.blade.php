@@ -38,6 +38,10 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/reserveringoverzicht') }}">Overzichtreserveringen</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url('/faq') }}">Contact</a>
                     </li>
 

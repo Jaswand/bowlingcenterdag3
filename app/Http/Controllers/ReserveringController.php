@@ -22,6 +22,18 @@ class ReserveringController extends Controller
 
     public function update(Request $request, Reservering $reservering)
     {
+        $aantalKinderen = $reservering->aantalkinderen; // Haal het aantal kinderen op
+
+        $request->validate([
+            'pakketoptie_id' => [
+                'required',
+                function ($attribute, $value, $fail) use ($aantalKinderen) {
+                    if ($aantalKinderen > 0 && $value == 4) { // ID 4 is "Vrijgezellenfeest"
+                        $fail('Het optiepakket "Vrijgezellenfeest" is niet beschikbaar voor reserveringen met kinderen.');
+                    }
+                },
+            ],
+        ]);
 
         $request->validate([
             'pakketoptie_id' => ['required', 'integer','max:4'],
@@ -31,6 +43,7 @@ class ReserveringController extends Controller
         $reservering->update([
             'pakketoptie_id' => $request->pakketoptie_id,
         ]);
+    
 
         $reservering->save();
                         
