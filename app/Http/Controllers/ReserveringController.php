@@ -64,23 +64,18 @@ class ReserveringController extends Controller
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['datum' => 'Invalid date format.']);
             }
-
-            // Check if the selected date is the one to be excluded
-            if ($datum->toDateString() === '2025-01-29') {
-                return redirect()->back()->with('error', 'Er is geen reserveringsinformatie beschikbaar voor deze geselecteerde datum');
-            }
         }
 
-        // Fetch reservations based on the selected date and sort by date descending
+        // Fetch reservations based on the selected date, excluding 2025-01-29, and sort by date descending
         $reservering = Reservering::when($datum, function ($query, $datum) {
-            return $query->whereDate('datum', $datum);
+            return $query->whereDate('datum', $datum)->whereDate('datum', '!=', '2025-01-29');
         })
-            ->orderBy('datum', 'desc', 'aantaluren', 'desc')
+            ->orderBy('datum', 'desc')
             ->get();
 
         // Debugging output
         if ($reservering->isEmpty()) {
-            dd('No reservations found for this date: ' . $datum->toDateString());
+            return redirect()->back()->with('error', 'Er is geen reserveringsinformatie beschikbaar voor deze geselecteerde datum');
         }
 
         return view('reserveringoverzicht.index', compact('reservering'));
