@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Reservering;
 use App\Http\Helpers\SharedHelper;
+use Carbon\Carbon;
 
 class ReserveringController extends Controller
 {
     public function index()
     {
-        $reservering = Reservering::with(['Persoon', 'Pakketoptie'])->get();
+        $reserveringen = Reservering::with(['Persoon', 'Pakketoptie'])->get();
         
-        return view('reservering.index', compact('reservering'));
+        return view('reservering.index', compact('reserveringen'));
     } 
 
     public function edit(Reservering $reservering)
@@ -52,12 +53,23 @@ class ReserveringController extends Controller
 
     public function filter(Request $request)
     {
-        $reservering = Reservering::with(['Persoon', 'Pakketoptie'])
-            ->where('datum', '>=', $request->start_date)
-            ->where('datum', '<=', $request->end_date)
-            ->get();
-        
-        return view('reservering.index', compact('reservering'));
+        $datum = $request->input('datum');
+    
+        // Validate the date format if necessary
+        if ($datum) {
+            try {
+                $datum = Carbon::createFromFormat('Y-m-d', $datum)->format('Y-m-d');
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['datum' => 'Invalid date format.']);
+            }
+        }
+    
+        // Fetch reservations based on the selected date
+        $reservering = Reservering::when($datum, function ($query, $datum) {
+            return $query->whereDate('datum', $datum);
+        })->get();
+    
+        return view('reserveringoverzicht.index', compact('reservering'));
     }
 
 } 

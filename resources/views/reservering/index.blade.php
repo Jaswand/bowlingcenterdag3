@@ -26,7 +26,7 @@
             <th>Optiepakket</th>
             <th width="280px">wijzigen</th>
         </tr>
-        @foreach ($reservering as $reservering)
+        @foreach ($reserveringen as $reservering)
         <tr>
             <td>{{ $reservering->persoon->voornaam }}</td>
             <td>{{ $reservering->persoon->tussenvoegsel }}</td>

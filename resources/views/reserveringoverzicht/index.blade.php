@@ -16,9 +16,11 @@
                     <label for="datum" class="mr-2">Selecteer datum:</label>
                     <select name="datum" id="datum" class="form-control mr-2">
                         <option value="">Selecteer datum</option>
-                        @foreach ($reservering as $reservering)
-                            <option value="{{ $reservering->datum }}">{{ $reservering->datum }}</option>
-                        @endforeach
+                        @if($reservering && is_iterable($reservering))
+                            @foreach ($reservering as $item)
+                                <option value="{{ $item->datum }}">{{ $item->datum }}</option>
+                            @endforeach
+                        @endif
                     </select>
                     <button type="submit" class="btn btn-primary">Tonen</button>
                 </div>
@@ -43,18 +45,18 @@
             <th>Kinderen</th>
             <th>Status</th>
         </tr>
-        @if($reservering && $reservering->count())
-            @foreach ($reservering as $reservering)
-                <tr>
-                    <td>{{ $reservering->persoon->voornaam }}</td>
-                    <td>{{ $reservering->persoon->tussenvoegsel }}</td>
-                    <td>{{ $reservering->persoon->achternaam }}</td>
-                    <td>{{ $reservering->datum }}</td>
-                    <td>{{ $reservering->uren }}</td>
-                    <td>{{ $reservering->aantalvolwassen }}</td>
-                    <td>{{ $reservering->aantalkinderen }}</td>
-                    <td>{{ $reserveringstatus->status }}</td>
-                </tr>
+        @if($reservering && is_iterable($reservering))
+            @foreach ($reservering as $item)
+            <tr>
+                <td>{{ $item->persoon->voornaam ?? 'N/A' }}</td>
+                <td>{{ $item->persoon->tussenvoegsel ?? 'N/A' }}</td>
+                <td>{{ $item->persoon->achternaam ?? 'N/A' }}</td>
+                <td>{{ $item->datum ?? 'N/A' }}</td>
+                <td>{{ $item->uren ?? 'N/A' }}</td>
+                <td>{{ $item->aantalvolwassen ?? 'N/A' }}</td>  
+                <td>{{ $item->aantalkinderen ?? 'N/A' }}</td> 
+                <td>{{ $item->status ?? 'N/A' }}</td>
+            </tr>
             @endforeach
         @else
             <tr>
