@@ -26,7 +26,7 @@ class Reservering extends Model
 
     public function persoon()
     {
-        return $this->belongsTo(Persoon::class);
+        return $this->belongsTo(Persoon::class, 'persoon_id'); // Ensure 'persoon_id' is in your reserveringen table
     }
 
     public function pakketoptie()

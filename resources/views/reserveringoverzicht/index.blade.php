@@ -9,17 +9,31 @@
         </div>
     </div>
 
+    <form action="{{ route('reserveringoverzicht.filter') }}" method="GET" class="form-inline mb-3">
+        <div class="form-group">
+            <label for="datum">Selecteer datum:</label>
+            <select name="datum" id="datum" class="form-control ml-2">
+                <option value="">Selecteer datum</option>
+                @foreach ($reservering as $reservering)
+                    <option value="{{ $reservering->datum }}">{{ $reservering->datum }}</option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary ml-2">Tonen</button>
+    </form>
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
+    @endif
 
     <table class="table table-striped">
         <tr>
             <th>Voornaam</th>
             <th>Tussenvoegsel</th>
             <th>Achternaam</th>
-            <th>Resreveringsdatum</th>
+            <th>Reseveringsdatum</th>
             <th>Uren</th>
             <th>Volwassen</th>
             <th>Kinderen</th>
@@ -37,7 +51,5 @@
             <td>{{ $reservering->status }}</td>
         </tr>
         @endforeach
-
     </table>
-    @endif
 @endsection

@@ -12,6 +12,6 @@ class Persoon extends Model
 
     public function reserveringen()
     {
-        return $this->hasOne(Reservering::class);
+        return $this->hasMany(Reservering::class, 'persoon_id');
     }
 }

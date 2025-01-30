@@ -50,4 +50,14 @@ class ReserveringController extends Controller
         return redirect()->route('reserveren', $reservering->id)->with('success', 'Reservering updated successfully.');
     }
 
+    public function filter(Request $request)
+    {
+        $reservering = Reservering::with(['Persoon', 'Pakketoptie'])
+            ->where('datum', '>=', $request->start_date)
+            ->where('datum', '<=', $request->end_date)
+            ->get();
+        
+        return view('reservering.index', compact('reservering'));
+    }
+
 } 

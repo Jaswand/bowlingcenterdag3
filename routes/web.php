@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReserveringController;
 
 
 /*
@@ -33,3 +34,4 @@ Route::get('/reserveren/edit/{reservering}', [App\Http\Controllers\ReserveringCo
 Route::put('/reserveren/{reservering}', [App\Http\Controllers\ReserveringController::class, 'update'])->name('reservering.update');
 
 Route::get('reserverenoverzicht', [App\Http\Controllers\ReserveringController::class, 'index'])->name('reserverenoverzicht');
+Route::get('/reserveringoverzicht/filter', [ReserveringController::class, 'filter'])->name('reserveringoverzicht.filter');
