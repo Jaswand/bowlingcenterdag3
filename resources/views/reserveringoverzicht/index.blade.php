@@ -45,7 +45,16 @@
         </tr>
         @if($reservering && $reservering->count())
             @foreach ($reservering as $reservering)
-            
+                <tr>
+                    <td>{{ $reservering->persoon->voornaam }}</td>
+                    <td>{{ $reservering->persoon->tussenvoegsel }}</td>
+                    <td>{{ $reservering->persoon->achternaam }}</td>
+                    <td>{{ $reservering->datum }}</td>
+                    <td>{{ $reservering->uren }}</td>
+                    <td>{{ $reservering->aantalvolwassen }}</td>
+                    <td>{{ $reservering->aantalkinderen }}</td>
+                    <td>{{ $reserveringstatus->status }}</td>
+                </tr>
             @endforeach
         @else
             <tr>

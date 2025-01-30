@@ -15,9 +15,12 @@ class Reservering extends Model
         'voornaam',
         'pakketoptie_id',
         'tussenvoegsel',
+        'reserveringsdatum',
         'achternaam',
         'datum',
+        'uren',
         'volwassen',
+        'status',
         'kinderen',
         'optiepakket',
     ];
