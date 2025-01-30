@@ -39,6 +39,6 @@ class Reservering extends Model
 
     public function reserveringstatus()
     {
-        return $this->belongsTo(Reserveringstatus::class);
+        return $this->belongsTo(Reserveringstatus::class, 'reserveringstatus_id');
     }
 }

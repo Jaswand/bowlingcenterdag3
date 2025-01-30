@@ -80,23 +80,23 @@
 
                 {{-- Display reservation status with color-coded badges --}}
                 <td>
-                    @if($item->status_id)
-                        @switch($item->status->id)
+                    @if($item->reserveringstatus_id)
+                        @switch($item->reserveringstatus->id)
                             @case(1)
                                 {{-- Green badge for status 1 --}}
-                                <span class="badge bg-success text-dark">{{ $item->status->naam }}</span>    
+                                <span class="badge bg-success text-dark">{{ $item->reserveringstatus->naam }}</span>    
                                 @break
                             @case(2)
                                 {{-- Yellow badge for status 2 --}}
-                                <span class="badge bg-warning text-dark">{{ $item->status->naam }}</span>
+                                <span class="badge bg-warning text-dark">{{ $item->reserveringstatus->naam }}</span>
                                 @break
                             @case(3)
                                 {{-- Red badge for status 3 --}}
-                                <span class="badge bg-danger text-dark">{{ $item->status->naam }}</span>
+                                <span class="badge bg-danger text-dark">{{ $item->reserveringstatus->naam }}</span>
                                 @break
                             @default
                                 {{-- Default grey badge for other statuses --}}
-                                <span class="badge bg-secondary text-dark">{{ $item->status->naam }}</span>
+                                <span class="badge bg-secondary text-dark">{{ $item->reserveringstatus->naam }}</span>
                         @endswitch
                     @else
                         {{-- Display N/A if no status is set --}}
