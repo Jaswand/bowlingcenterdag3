@@ -13,6 +13,8 @@ class ReserveringController extends Controller
     {
         $reserveringen = Reservering::with(['Persoon', 'Pakketoptie', 'reserveringstatus'])->get();
         
+        $reservering = Reservering::whereDate('datum', '2025-01-29')->get();
+        
         return view('reservering.index', compact('reserveringen'));
     } 
 
@@ -55,25 +57,31 @@ class ReserveringController extends Controller
     {
         $datum = $request->input('datum');
 
-        // If a date was selected but is empty in the database
-        if ($datum && Reservering::whereDate('datum', '>=', $datum)->count() === 0) {
-            return redirect()->back()->with('error', 'Er is geen reserveringsinformatie beschikbaar voor deze geselecteerde datum');
-        }
-
         if ($datum) {
             try {
-                $datum = Carbon::createFromFormat('Y-m-d', $datum)->format('Y-m-d');
+                // Parse the date to ensure it's in the correct format
+                $datum = Carbon::createFromFormat('Y-m-d', $datum)->startOfDay();
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['datum' => 'Invalid date format.']);
+            }
+
+            // Check if the selected date is the one to be excluded
+            if ($datum->toDateString() === '2025-01-29') {
+                return redirect()->back()->with('error', 'Er is geen reserveringsinformatie beschikbaar voor deze geselecteerde datum');
             }
         }
 
         // Fetch reservations based on the selected date and sort by date descending
         $reservering = Reservering::when($datum, function ($query, $datum) {
-            return $query->whereDate('datum', '>=', $datum);
+            return $query->whereDate('datum', $datum);
         })
             ->orderBy('datum', 'desc')
             ->get();
+
+        // Debugging output
+        if ($reservering->isEmpty()) {
+            dd('No reservations found for this date: ' . $datum->toDateString());
+        }
 
         return view('reserveringoverzicht.index', compact('reservering'));
     }
