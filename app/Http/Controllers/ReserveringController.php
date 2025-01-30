@@ -75,7 +75,7 @@ class ReserveringController extends Controller
         $reservering = Reservering::when($datum, function ($query, $datum) {
             return $query->whereDate('datum', $datum);
         })
-            ->orderBy('datum', 'desc')
+            ->orderBy('datum', 'desc', 'aantaluren', 'desc')
             ->get();
 
         // Debugging output
