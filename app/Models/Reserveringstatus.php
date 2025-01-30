@@ -13,6 +13,6 @@ class Reserveringstatus extends Model
 
     public function reservering()
     {
-        return $this->hasMany(Reservering::class);
+        return $this->hasMany(Reservering::class, 'status_id');
     }
 }

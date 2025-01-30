@@ -11,7 +11,7 @@ class ReserveringController extends Controller
 {
     public function index()
     {
-        $reserveringen = Reservering::with(['Persoon', 'Pakketoptie'])->get();
+        $reserveringen = Reservering::with(['Persoon', 'Pakketoptie', 'reserveringstatus'])->get();
         
         return view('reservering.index', compact('reserveringen'));
     } 

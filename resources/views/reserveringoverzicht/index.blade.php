@@ -61,7 +61,25 @@
                 <td>{{ $item->uren ?? 'N/A' }}</td>
                 <td>{{ $item->aantalvolwassen ?? 'N/A' }}</td>  
                 <td>{{ $item->aantalkinderen ?? 'N/A' }}</td> 
-                <td>{{ $item->status->name ?? 'N/A' }}</td>
+                <td>
+                    @if($item->status_id)
+                        @switch($item->status->id)
+                        @case(1)
+                        <span class="badge bg-success text-dark">{{ $item->status->name }}</span>    
+                        @break
+                        @case(2)
+                        <span class="badge bg-warning text-dark">{{ $item->status->name }}</span>
+                        @break
+                        @case(3)
+                        <span class="badge bg-danger text-dark">{{ $item->status->name }}</span>
+                        @break
+                        @default
+                        <span class="badge bg-secondary text-dark">{{ $item->status->name }}</span>
+                        @endswitch
+                    @else
+                        <span class="badge bg-secondary text-dark">N/A</span>
+                    @endif   
+                </td>                 
             </tr>
             @endforeach
         @else
