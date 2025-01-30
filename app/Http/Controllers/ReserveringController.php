@@ -54,8 +54,12 @@ class ReserveringController extends Controller
     public function filter(Request $request)
     {
         $datum = $request->input('datum');
-    
-        // Validate the date format if necessary
+
+        // If a date was selected but is empty in the database
+        if ($datum && Reservering::whereDate('datum', '>=', $datum)->count() === 0) {
+            return redirect()->back()->with('error', 'Er is geen reserveringsinformatie beschikbaar voor deze geselecteerde datum');
+        }
+
         if ($datum) {
             try {
                 $datum = Carbon::createFromFormat('Y-m-d', $datum)->format('Y-m-d');
@@ -63,12 +67,14 @@ class ReserveringController extends Controller
                 return redirect()->back()->withErrors(['datum' => 'Invalid date format.']);
             }
         }
-    
-        // Fetch reservations based on the selected date
+
+        // Fetch reservations based on the selected date and sort by date descending
         $reservering = Reservering::when($datum, function ($query, $datum) {
-            return $query->whereDate('datum', $datum);
-        })->get();
-    
+            return $query->whereDate('datum', '>=', $datum);
+        })
+            ->orderBy('datum', 'desc')
+            ->get();
+
         return view('reserveringoverzicht.index', compact('reservering'));
     }
 
