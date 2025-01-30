@@ -61,7 +61,7 @@
                 <td>{{ $item->uren ?? 'N/A' }}</td>
                 <td>{{ $item->aantalvolwassen ?? 'N/A' }}</td>  
                 <td>{{ $item->aantalkinderen ?? 'N/A' }}</td> 
-                <td>{{ $item->status ?? 'N/A' }}</td>
+                <td>{{ $item->status->name ?? 'N/A' }}</td>
             </tr>
             @endforeach
         @else

@@ -36,4 +36,9 @@ class Reservering extends Model
     {
         return $this->belongsTo(Pakketoptie::class);
     }
+
+    public function reserveringstatus()
+    {
+        return $this->belongsTo(Reserveringstatus::class);
+    }
 }
