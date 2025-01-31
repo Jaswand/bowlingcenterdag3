@@ -73,24 +73,31 @@ class ReserveringController extends Controller
     public function filter(Request $request)
     {
         $datum = $request->input('datum');
-
+    
+        // Check if a date was selected
         if ($datum) {
             try {
-                // Parse the date to ensure it's in the correct format
-                $datum = Carbon::createFromFormat('Y-m-d', $datum)->startOfDay();
+                // Start and end of the selected date
+                $startDatum = Carbon::createFromFormat('Y-m-d', $datum)->startOfDay();
+                $eindDatum = Carbon::createFromFormat('Y-m-d', $datum)->endOfDay();
+    
+                // Fetch reservations for the selected date range
+                $reservering = Reservering::whereBetween('datum', [$startDatum, $eindDatum])
+                    ->orderBy('datum', 'desc')
+                    ->get();
             } catch (\Exception $e) {
-                return redirect()->back()->withErrors(['datum' => 'Invalid date format.']);
+                return redirect()->back()->withErrors(['datum' => 'Ongeldig datumformaat.']);
             }
+        } else {
+            // If no date is selected, fetch all reservations
+            $reservering = Reservering::orderBy('datum', 'desc')->get();
         }
-
-        // Fetch reservations from the selected date onward and sort by date descending
-        $reservering = Reservering::when($datum, function ($query, $datum) {
-            return $query->whereDate('datum', '>=', $datum);
-        })
-            ->orderBy('datum', 'desc')
-            ->get();
-
-        return view('reserveringoverzicht.index', compact('reservering'));
+    
+        // Set a message if there are no reservations
+        $message = $reservering->isEmpty() ? 'Er zijn geen reserveringen beschikbaar.' : null;
+    
+        return view('reserveringoverzicht.index', compact('reservering', 'message'));
     }
+    
 
 } 
