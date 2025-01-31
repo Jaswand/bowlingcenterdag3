@@ -14,22 +14,10 @@
     <div class="row mb-3">
         <div class="col-lg-4 offset-lg-8">
             {{-- Form for filtering reservations by date --}}
-            <form action="{{ route('reserveringoverzicht.filter') }}" method="GET" class="form-inline">
-                <div class="form-group">
-                    <label for="datum" class="mr-2">Selecteer datum:</label>
-                    <select name="datum" id="datum" class="form-control mr-2">
-                        {{-- Default option --}}
-                        <option value="">Selecteer datum</option>
-                        {{-- Populate options dynamically from the reservation data --}}
-                        @if($reservering && is_iterable($reservering))
-                            @foreach ($reservering as $item)
-                                <option value="{{ $item->datum }}">{{ $item->datum }}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                    {{-- Submit button to apply the filter --}}
-                    <button type="submit" class="btn btn-primary">Tonen</button>
-                </div>
+            <form action="{{ route('reserveringoverzicht.filter') }}" method="GET">
+                <label for="datum">Selecteer een datum:</label>
+                <input type="date" id="datum" name="datum" required>
+                <button type="submit" class="btn btn-primary">Tonen</button>
             </form>
         </div>
     </div>
